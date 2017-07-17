@@ -1,0 +1,11 @@
+version: '2'
+services:
+  app:
+    build: .
+    container_name: study-a-tour-of-go
+    restart: always
+    stdin_open: true
+    volumes:
+      - .:/root/study-a-tour-of-go
+    ports:
+      - 3000
