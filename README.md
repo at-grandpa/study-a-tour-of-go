@@ -13,6 +13,7 @@ $ make setup
 ## Compile and run Go program
 
 ```
-$ make go/run SRC=using-the-tour/hello-world.go
-Hello, 世界
+$ make go/run SRC=01.using-the-tour/01.welcome/01.hello-world/hello.go
+docker exec -it study-a-tour-of-go /bin/bash -c "go run 01.using-the-tour/01.welcome/01.hello-world/hello.go"
+Hello!!!, 世界
 ```
