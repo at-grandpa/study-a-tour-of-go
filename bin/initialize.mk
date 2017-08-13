@@ -96,4 +96,5 @@ FILES= \
 initialize: $(FILES)
 
 $(FILES):
+	rm -f $@
 	go run ./bin/initialize.go -- $@
