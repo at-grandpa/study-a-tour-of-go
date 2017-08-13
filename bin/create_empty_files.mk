@@ -97,4 +97,4 @@ FILES= \
 create: $(FILES)
 
 $(FILES):
-	./bin/cf $@
+	go run ./bin/initilize.go -- $@
