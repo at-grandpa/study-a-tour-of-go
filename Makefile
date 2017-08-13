@@ -27,5 +27,5 @@ attach:
 go/%:
 	$(DOCKER_EXEC) $(CONTAINER_NAME) /bin/bash -c "go $* $(SRC)"
 
-create_empty_files:
-	$(MAKE) -f ./bin/create_empty_files.mk create
+initialize:
+	$(MAKE) -f ./bin/initialize.mk initialize

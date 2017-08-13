@@ -94,7 +94,7 @@ FILES= \
 
 
 
-create: $(FILES)
+initilize: $(FILES)
 
 $(FILES):
 	go run ./bin/initilize.go -- $@

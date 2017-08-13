@@ -4,10 +4,16 @@
 
 # Usage
 
-## Setup
+## Setup Docker Container
 
 ```
 $ make setup
+```
+
+## Initialize all files
+
+```
+$ make initialize
 ```
 
 ## Compile and run Go program
