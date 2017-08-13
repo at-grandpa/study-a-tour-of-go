@@ -11,23 +11,32 @@ type Fetcher interface {
 	Fetch(url string) (body string, urls []string, err error)
 }
 
+type FetchedUrls struct {
+	urls map[string]bool
+	mux  sync.Mutex
+}
+
+func (f *FetchedUrls) Exists(url string) bool {
+	return f.urls[url]
+}
+
+func (f *FetchedUrls) Add(url string) {
+	f.mux.Lock()
+	f.urls[url] = true
+	f.mux.Unlock()
+}
+
 // Crawl uses fetcher to recursively crawl
 // pages starting with url, to a maximum of depth.
-func Crawl(url string, depth int, fetcher Fetcher, fetched map[string]bool, ret chan string) {
+func Crawl(url string, depth int, fetcher Fetcher, fetched *FetchedUrls, ret chan string) {
 	// TODO: Fetch URLs in parallel.
 	// TODO: Don't fetch the same URL twice.
 	// This implementation doesn't do either:
-	mux := new(sync.Mutex)
-
-	// fmt.Println(fetched)
-
 	defer close(ret)
 
-	mux.Lock()
-	if fetched[url] {
+	if fetched.Exists(url) {
 		return
 	}
-	mux.Unlock()
 
 	if depth <= 0 {
 		return
@@ -36,16 +45,12 @@ func Crawl(url string, depth int, fetcher Fetcher, fetched map[string]bool, ret 
 	body, urls, err := fetcher.Fetch(url)
 	if err != nil {
 		ret <- err.Error()
-		mux.Lock()
-		fetched[url] = true
-		mux.Unlock()
+		fetched.Add(url)
 		return
 	}
 
 	ret <- fmt.Sprintf("found: %s %q", url, body)
-	mux.Lock()
-	fetched[url] = true
-	mux.Unlock()
+	fetched.Add(url)
 
 	result := make([]chan string, len(urls))
 	for i, u := range urls {
@@ -54,21 +59,19 @@ func Crawl(url string, depth int, fetcher Fetcher, fetched map[string]bool, ret 
 	}
 
 	for i := range result {
-		mux.Lock()
-		if !fetched[urls[i]] {
+		if !fetched.Exists(urls[i]) {
 			for s := range result[i] {
 				ret <- s
 			}
 		}
-		mux.Unlock()
 	}
 	return
 }
 
 func main() {
 	result := make(chan string, 1)
-	fetched := make(map[string]bool)
-	go Crawl("http://golang.org/", 4, fetcher, fetched, result)
+	fetched := FetchedUrls{urls: make(map[string]bool)}
+	go Crawl("http://golang.org/", 4, fetcher, &fetched, result)
 
 	for s := range result {
 		fmt.Println(s)
