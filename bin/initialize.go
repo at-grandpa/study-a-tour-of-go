@@ -23,8 +23,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, 0755)
-	defer file.Close()
+	fp, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
+	defer fp.Close()
+
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
