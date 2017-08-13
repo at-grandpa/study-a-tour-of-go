@@ -10,11 +10,11 @@ import (
 func main() {
 	flag.Parse()
 	args := flag.Args()
-	fmt.Println(args)
 	if len(args) != 1 {
 		fmt.Println("Too many arguments. expected: 1")
 		os.Exit(1)
 	}
+
 	filePath := args[0]
 	dirName := path.Dir(filePath)
 

@@ -1,4 +1,4 @@
-FILES=\ 
+FILES= \
 01.using-the-tour/01.welcome/01.hello-world/hello.go \
 01.using-the-tour/01.welcome/04.the-go-playground/sandbox.go \
 02.basics/01.packages-variables-and-functions/01.packages/packages.go \
@@ -92,9 +92,9 @@ FILES=\
 04.concurrency/01.concurrency/10.exercise-web-crawler/exercise-web-crawler.go \
 
 
+.PHONY: $(FILES)
 
 initialize: $(FILES)
 
 $(FILES):
-	rm -f $@
 	go run ./bin/initialize.go -- $@
