@@ -28,4 +28,4 @@ go/%:
 	$(DOCKER_EXEC) $(CONTAINER_NAME) /bin/bash -c "go $* $(SRC)"
 
 initialize:
-	$(MAKE) -f ./bin/initialize.mk initialize
+	$(DOCKER_EXEC) $(CONTAINER_NAME) make -f ./bin/initialize.mk initialize

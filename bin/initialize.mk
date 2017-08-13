@@ -93,8 +93,7 @@ FILES= \
 
 
 
-
-initilize: $(FILES)
+initialize: $(FILES)
 
 $(FILES):
-	go run ./bin/initilize.go -- $@
+	go run ./bin/initialize.go -- $@
