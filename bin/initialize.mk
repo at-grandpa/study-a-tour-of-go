@@ -1,4 +1,4 @@
-FILES= \
+FILES=\ 
 01.using-the-tour/01.welcome/01.hello-world/hello.go \
 01.using-the-tour/01.welcome/04.the-go-playground/sandbox.go \
 02.basics/01.packages-variables-and-functions/01.packages/packages.go \
